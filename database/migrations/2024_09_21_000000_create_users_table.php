@@ -20,9 +20,9 @@ return new class extends Migration
             $table->string('job_title')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password')->nullable();
-            $table->foreignId('company_id')->nullable()->constrained()->onDelete('set null');
-            $table->foreignId('department_id')->nullable()->constrained()->onDelete('set null');
-            $table->foreignId('team_id')->nullable()->constrained()->onDelete('set null'); // ربط المستخدم بالفريق
+            $table->foreignId('company_id')->constrained('companies')->onDelete('cascade')->nullable();
+            $table->foreignId('department_id')->constrained('departments')->onDelete('cascade')->nullable();
+            $table->foreignId('team_id')->constrained('teams')->onDelete('cascade')->nullable(); // ربط المستخدم بالفريق
             $table->enum('role', ['employee', 'hr', 'accounts', 'gm']); // دور المستخدم
             $table->boolean('is_manager')->default(false); // هل هو مدير؟
             $table->string('api_token', 80)->unique()->nullable()->default(null);
