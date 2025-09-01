@@ -19,16 +19,19 @@ return new class extends Migration
             $table->date('due_date');
             $table->decimal('amount');
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->foreignId('cash_category_id')->constrained()->onDelete('cascade');
+             $table->foreignId('cash_category_id')->constrained('cash_categories')->onDelete('cascade');
+
             $table->enum('status', ['pending', 'approved_by_manager', 'approved_by_accounts', 'approved_by_gm', 'rejected'])->default('pending');
             $table->foreignId('approved_by_manager')->nullable()->constrained('users')->onDelete('set null');
             $table->foreignId('approved_by_accounts')->nullable()->constrained('users')->onDelete('set null');
             $table->foreignId('approved_by_gm')->nullable()->constrained('users')->onDelete('set null');
             $table->string('attachment')->nullable();
-            $table->foreignId('project_id')->nullable()->constrained('projects')->onDelete('cascade'); 
-            $table->foreignId('project_inquiries_id')->nullable()->constrained('project_inquiries')->onDelete('cascade');
 
-            $table->foreignId('phase_id')->nullable()->constrained('project_inquiry_phases')->onDelete('cascade'); // إضافة هذا الحقل
+            $table->foreignId('project_id')->nullable()->constrained('projects')->onDelete('set null');
+
+            $table->foreignId('project_inquiries_id')->nullable()->constrained('project_inquiries')->onDelete('set null');
+
+            $table->foreignId('phase_id')->nullable()->constrained('project_inquiry_phases')->onDelete('set null'); 
 
             $table->timestamps();
         });
